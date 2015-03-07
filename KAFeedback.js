@@ -83,7 +83,7 @@
  * 2) We want to support modern versions of Firefox, Chrome, and Safari and IE 8+. That being said IE 8
  *    and 9 do not have to have the best performance, it just has to work (even if it works poorly). With that
  *    in mind follow the next steps and make sure whichever parsing tool you chose will work in the browsers
- *    that you want to support.
+ *    that you want to support.ww
  *
  * 3) Design and create a testing API that can take in a string of JavaScript code, parse it, and provide feedback
  *    based upon it. You should have three possible testing methods (based upon the above-listed qualifications).
