@@ -1,1 +1,9 @@
-H1 {text-align:left; color:black; font: normal 40pt "Arial Black"}
+/*
+ *  CSS Validation http://jigsaw.w3.org/css-validator/validator
+ */
+
+H1 {
+    text-align:left;
+    color:black;
+    font: normal 40pt "Arial Black"
+}
