@@ -2,18 +2,22 @@
     HTML Validation: http://validator.w3.org/
 -->
 
-<!DOCTYPE html>
+        <! DOCTYPE HTML>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Hello</title>
-    <link rel="stylesheet" type="text/css" href="KAWebpage.css" />
+    <title>Khan Academy Project</title>
     <script src="KAFeedback.js"></script>
+    <link rel="stylesheet" media="screen" href="KAWebpage.css" >
 </head>
 <body>
-<h1>JavaScript Code</h1>
-    <textarea rows="30" cols="100">
-
-    </textarea>
+ <!-  ACE Editor  -->
+    <div id="editor">Type JavaScript code here</div>
+    <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/xcode");
+        editor.getSession().setMode("ace/mode/javascript");
+    </script>
 </body>
 </html>

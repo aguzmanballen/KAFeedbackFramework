@@ -7,3 +7,74 @@ H1 {
     color:black;
     font: normal 40pt "Arial Black"
 }
+
+body {
+    overflow: hidden;
+}
+
+#editor {
+    width: 600px;
+    height: 500px;
+    border: 2px solid #000;
+}
+
+#A_1 {
+    color: rgb(68, 68, 68);
+    display: block;
+    height: 45px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    width: 142.65625px;
+    align-self: stretch;
+    perspective-origin: 87.328125px 22.5px;
+    transform-origin: 87.328125px 22.5px;
+    border-top: 0px solid rgb(221, 221, 221);
+    border-right: 1px solid rgb(221, 221, 221);
+    border-bottom: 0px solid rgb(221, 221, 221);
+    border-left: 1px solid rgb(221, 221, 221);
+    font: normal normal normal normal 17px/45px FontAwesome;
+    outline: rgb(68, 68, 68) none 0px;
+    padding: 0px 15px;
+}/*#A_1*/
+
+#SPAN_2 {
+    color: rgb(68, 68, 68);
+    position: relative;
+    text-align: center;
+    top: 1px;
+    border: 0px none rgb(68, 68, 68);
+    font: normal normal normal normal 17px/45px FontAwesome;
+    outline: rgb(68, 68, 68) none 0px;
+}/*#SPAN_2*/
+
+#SPAN_3 {
+    color: rgb(68, 68, 68);
+    text-align: center;
+    text-transform: uppercase;
+    border: 0px none rgb(68, 68, 68);
+    font: normal normal normal normal 17px/45px FontAwesome;
+    outline: rgb(68, 68, 68) none 0px;
+}/*#SPAN_3*/
+
+#SPAN_3:before {
+    color: rgb(157, 182, 59);
+    text-align: center;
+    text-transform: uppercase;
+    content: '•';
+    border: 0px none rgb(157, 182, 59);
+    font: normal normal normal normal 17px/45px FontAwesome;
+    margin: 0px 3px 0px 0px;
+    outline: rgb(157, 182, 59) none 0px;
+}/*#SPAN_3:before*/
+
+#SPAN_4 {
+    color: rgb(68, 68, 68);
+    text-align: center;
+    text-transform: lowercase;
+    border: 0px none rgb(68, 68, 68);
+    font: normal normal normal normal 17px/45px FontAwesome;
+    outline: rgb(68, 68, 68) none 0px;
+}/*#SPAN_4*/
+
+

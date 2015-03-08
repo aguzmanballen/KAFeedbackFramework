@@ -92,7 +92,7 @@
  *    above) are run automatically. Display the results of the test run somewhere on the web page so that the user
  *    can see how they're doing. You’re free to use any JavaScript you wish to wire up the textarea to the tester.
  *
- *    (Optional) Use a nice code editor, like Ace or CodeMirror, and instead of a textarea.
+ *    (Optional) Use a nice code editor, like Ace or CodeMirror, instead of a textarea.
  *
  * 5) Make sure that the textarea is not blocking, or slowing down, user input. Use whatever tools you can to
  *    make sure that the tests are run in a non-blocking way in as many browsers as possible (may not be
