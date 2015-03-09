@@ -11,12 +11,12 @@
     <link rel="stylesheet" media="screen" href="KAWebpage.css" >
 </head>
 <body>
- <!-  ACE Editor  -->
-    <div id="editor">Type JavaScript code here</div>
+    <!-  ACE Editor  -->
+    <div id="editor"></div>
     <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script>
         var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/xcode");
+        editor.setTheme("ace/theme/khan_academy");
         editor.getSession().setMode("ace/mode/javascript");
     </script>
 </body>
