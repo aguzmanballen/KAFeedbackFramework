@@ -2,7 +2,7 @@
     HTML Validation: http://validator.w3.org/
 -->
 
-        <! DOCTYPE HTML>
+<! DOCTYPE HTML>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -18,6 +18,20 @@
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/khan_academy");
         editor.getSession().setMode("ace/mode/javascript");
+
+        var textEditorString;
+        editor.getSession().on('change', function(e) {
+            textEditorString = editor.getValue();
+        });
+
+        editor.commands.addCommand({
+            name: 'myCommand',
+            bindKey: {win: 'Ctrl-M',  mac: 'Command-M'},
+            exec: function(editor) {
+                alert(textEditorString);
+            },
+            readOnly: true // false if this command should not apply in readOnly mode
+        });
     </script>
 </body>
 </html>
