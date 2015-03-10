@@ -11,6 +11,20 @@
     <link rel="stylesheet" media="screen" href="KAWebpage.css" >
 </head>
 <body>
+    <!-  Khan Academy Code Structure Framework  -->
+    <script src="KAFeedbackFramework.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        var KAFeedback = new KAFeedbackFramework();
+
+        var myWhiteList = "for";//["while", "do", "if", "else"];
+        var myBlackList = "if";//["for"];
+        var myCodeStructure = "lol";
+
+        KAFeedback.initializeWhiteList(myWhiteList);
+        KAFeedback.initializeBlackList(myBlackList);
+        KAFeedback.initializeCodeStructure(myCodeStructure);
+    </script>
+
     <!-  ACE Editor  -->
     <div id="editor"></div>
     <script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -19,16 +33,23 @@
         editor.setTheme("ace/theme/khan_academy");
         editor.getSession().setMode("ace/mode/javascript");
 
-        var textEditorString;
+        var whiteListFeedback = "";
+        var blackListFeedback = "";
+        var codeStructureFeedback = "";
+
         editor.getSession().on('change', function(e) {
-            textEditorString = editor.getValue();
+            var textEditorString = editor.getValue();
+
+            whiteListFeedback = KAFeedback.testCodeForWhiteListElements(textEditorString);
+            blackListFeedback = KAFeedback.testCodeForBlackListElements(textEditorString);
+            codeStructureFeedback = KAFeedback.testCodeForCorrectStructure(textEditorString);
         });
 
         editor.commands.addCommand({
             name: 'myCommand',
             bindKey: {win: 'Ctrl-M',  mac: 'Command-M'},
             exec: function(editor) {
-                alert(textEditorString);
+                alert(whiteListFeedback + " " + blackListFeedback + " " + codeStructureFeedback);
             },
             readOnly: true // false if this command should not apply in readOnly mode
         });

@@ -99,3 +99,50 @@
  *    possible in older browsers).
  *
  */
+
+function KAFeedbackFramework() {
+
+}
+
+function KAFeedbackFramework(whiteList, blackList) {
+    this.whiteList = whiteList;
+    this.blackList = blackList;
+
+}
+
+function KAFeedbackFramework(whiteList, blackList, codeStructure) {
+    this.whiteList = whiteList;
+    this.blackList = blackList;
+    this.codeStructure = codeStructure;
+
+}
+
+KAFeedbackFramework .prototype  .initializeWhiteList = function(whiteList) {
+    this.whiteList = whiteList;
+}
+
+KAFeedbackFramework .prototype  .initializeBlackList = function(blackList) {
+    this.blackList = blackList;
+}
+
+KAFeedbackFramework .prototype  .initializeCodeStructure = function(codeStructure) {
+    this.codeStructure = codeStructure;
+}
+
+/*
+ *  Function: analyzeTextEditorString
+ *  Parameters:
+ *  Returns:
+ *
+ */
+KAFeedbackFramework .prototype  .testCodeForWhiteListElements = function(textEditorString) {
+    return this.whiteList;
+}
+
+KAFeedbackFramework .prototype  .testCodeForBlackListElements = function(textEditorString) {
+    return this.blackList;
+}
+
+KAFeedbackFramework .prototype  .testCodeForCorrectStructure = function(textEditorString) {
+    return this.codeStructure;
+}
