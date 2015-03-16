@@ -12,18 +12,23 @@
 </head>
 <body>
     <!-  Khan Academy Code Structure Framework  -->
-    <script src="KAFeedbackFramework.js" type="text/javascript" charset="utf-8"></script>
+    <script src="scripts/KAFeedbackFramework.js" type="text/javascript" charset="utf-8"></script>
     <script>
         var KAFeedback = new KAFeedbackFramework();
 
-        var myWhiteList = "for";//["while", "do", "if", "else"];
-        var myBlackList = "if";//["for"];
-        var myCodeStructure = "lol";
+        var myWhiteList = ['WhileStatement', 'ForStatement', 'VariableDeclaration'];
+        var myBlackList = ["IfStatement"];//["for"];
+        var myCodeStructure = ["lol"];
 
         KAFeedback.initializeWhiteList(myWhiteList);
         KAFeedback.initializeBlackList(myBlackList);
         KAFeedback.initializeCodeStructure(myCodeStructure);
+
     </script>
+
+    <script src="acorn/acorn.js" type="text/javascript" charset="utf-8"></script>
+    <script src="acorn/util/walk.js" type="text/javascript" charset="utf-8"></script>
+    <script data-main="KAFeedbackFramework" src="scripts/require.js"></script>
 
     <!-  ACE Editor  -->
     <div id="editor"></div>
@@ -36,23 +41,35 @@
         var whiteListFeedback = "";
         var blackListFeedback = "";
         var codeStructureFeedback = "";
+        var extractedAST;
 
-        editor.getSession().on('change', function(e) {
+        editor.getSession().on('changeAnnotation', function(e) {
             var textEditorString = editor.getValue();
+            extractedAST = KAFeedback.extractASTFromString(textEditorString);
 
-            whiteListFeedback = KAFeedback.testCodeForWhiteListElements(textEditorString);
-            blackListFeedback = KAFeedback.testCodeForBlackListElements(textEditorString);
-            codeStructureFeedback = KAFeedback.testCodeForCorrectStructure(textEditorString);
+            whiteListFeedback = KAFeedback.testCodeForWhiteListElements(textEditorString, extractedAST);
+            blackListFeedback = KAFeedback.testCodeForBlackListElements(textEditorString, extractedAST);
+            codeStructureFeedback = KAFeedback.testCodeForCorrectStructure(textEditorString, extractedAST);
         });
 
         editor.commands.addCommand({
             name: 'myCommand',
             bindKey: {win: 'Ctrl-M',  mac: 'Command-M'},
             exec: function(editor) {
-                alert(whiteListFeedback + " " + blackListFeedback + " " + codeStructureFeedback);
+                /*var output = '';
+                for (var property in extractedAST.body[1].body.body[0]) {
+                    output += property + ': ' + extractedAST.body[1].body.body[0][property]+'; ';
+                }*/
+
+                document.getElementById("myText").value = whiteListFeedback;
+                //alert(extractedAST);
+                //alert(whiteListFeedback + " " + blackListFeedback + " " + codeStructureFeedback);
             },
             readOnly: true // false if this command should not apply in readOnly mode
         });
     </script>
+    <textarea id="myText" rows="10" cols="200">
+    </textarea>
+
 </body>
 </html>

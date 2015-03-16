@@ -101,20 +101,9 @@
  */
 
 function KAFeedbackFramework() {
-
-}
-
-function KAFeedbackFramework(whiteList, blackList) {
-    this.whiteList = whiteList;
-    this.blackList = blackList;
-
-}
-
-function KAFeedbackFramework(whiteList, blackList, codeStructure) {
-    this.whiteList = whiteList;
-    this.blackList = blackList;
-    this.codeStructure = codeStructure;
-
+    this.whiteList = [];
+    this.blackList = [];
+    this.codeStructure = [];
 }
 
 KAFeedbackFramework .prototype  .initializeWhiteList = function(whiteList) {
@@ -122,7 +111,7 @@ KAFeedbackFramework .prototype  .initializeWhiteList = function(whiteList) {
 }
 
 KAFeedbackFramework .prototype  .initializeBlackList = function(blackList) {
-    this.blackList = blackList;
+   this.blackList = blackList;
 }
 
 KAFeedbackFramework .prototype  .initializeCodeStructure = function(codeStructure) {
@@ -135,14 +124,44 @@ KAFeedbackFramework .prototype  .initializeCodeStructure = function(codeStructur
  *  Returns:
  *
  */
-KAFeedbackFramework .prototype  .testCodeForWhiteListElements = function(textEditorString) {
-    return this.whiteList;
+KAFeedbackFramework .prototype  .extractASTFromString = function(textEditorString) {
+    return acorn.parse(textEditorString, acorn.defaultOptions);
 }
 
-KAFeedbackFramework .prototype  .testCodeForBlackListElements = function(textEditorString) {
-    return this.blackList;
+KAFeedbackFramework .prototype  .testCodeForWhiteListElements = function(textEditorString, extractedAST) {
+    var elementFound;
+
+    for(var element in this.whiteList) {
+        elementFound = acorn.walk.findNodeAt(extractedAST, null, null, this.whiteList[element]);
+
+        if(elementFound!= undefined) {
+            if(elementFound.node.type == this.whiteList[element]) {
+                alert("Found: " + elementFound.node.type);
+            }
+            //alert("element found: " + elementFound.node.type + " ... this: " + this.whiteList[element]);
+        }
+    }
+
+
+    //acorn.walk.simple(extractedAST, this.whiteList);
 }
 
-KAFeedbackFramework .prototype  .testCodeForCorrectStructure = function(textEditorString) {
+KAFeedbackFramework .prototype  .testCodeForBlackListElements = function(textEditorString, extractedAST) {
+    /*var elementFound;
+
+    for(var element in this.whiteList) {
+        elementFound = acorn.walk.findNodeAt(extractedAST, null, null, this.whiteList[element]);
+
+        if(elementFound != undefined) {
+            alert("Found element!");
+            break;
+        }
+    }*/
+
+    return 0;
+
+}
+
+KAFeedbackFramework .prototype  .testCodeForCorrectStructure = function(textEditorString, extractedAST) {
     return this.codeStructure;
 }
