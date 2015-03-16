@@ -101,13 +101,15 @@
  */
 
 function KAFeedbackFramework() {
-    this.whiteList = [];
-    this.blackList = [];
-    this.codeStructure = [];
+    this.whiteList = {};
+    this.blackList = {};
+    this.codeStructure = {};
 }
 
 KAFeedbackFramework .prototype  .initializeWhiteList = function(whiteList) {
-    this.whiteList = whiteList;
+    for (var element in whiteList) {
+        this.whiteList[whiteList[element]] = 0;
+    }
 }
 
 KAFeedbackFramework .prototype  .initializeBlackList = function(blackList) {
@@ -129,21 +131,19 @@ KAFeedbackFramework .prototype  .extractASTFromString = function(textEditorStrin
 }
 
 KAFeedbackFramework .prototype  .testCodeForWhiteListElements = function(textEditorString, extractedAST) {
-    var elementFound;
-
     for(var element in this.whiteList) {
-        elementFound = acorn.walk.findNodeAt(extractedAST, null, null, this.whiteList[element]);
+        var elementFound = acorn.walk.findNodeAt(extractedAST, null, null, element);
 
-        if(elementFound!= undefined) {
-            if(elementFound.node.type == this.whiteList[element]) {
-                alert("Found: " + elementFound.node.type);
+        if (elementFound != undefined) {
+            if (elementFound.node.type == element) {
+                this.whiteList[element] = 1;
             }
-            //alert("element found: " + elementFound.node.type + " ... this: " + this.whiteList[element]);
+        } else {
+            this.whiteList[element] = 0;
         }
     }
 
-
-    //acorn.walk.simple(extractedAST, this.whiteList);
+    return this.whiteList;
 }
 
 KAFeedbackFramework .prototype  .testCodeForBlackListElements = function(textEditorString, extractedAST) {
