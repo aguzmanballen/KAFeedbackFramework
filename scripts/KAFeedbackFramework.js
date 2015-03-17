@@ -83,7 +83,7 @@
  * 2) We want to support modern versions of Firefox, Chrome, and Safari and IE 8+. That being said IE 8
  *    and 9 do not have to have the best performance, it just has to work (even if it works poorly). With that
  *    in mind follow the next steps and make sure whichever parsing tool you chose will work in the browsers
- *    that you want to support.ww
+ *    that you want to support.
  *
  * 3) Design and create a testing API that can take in a string of JavaScript code, parse it, and provide feedback
  *    based upon it. You should have three possible testing methods (based upon the above-listed qualifications).
@@ -113,7 +113,9 @@ KAFeedbackFramework .prototype  .initializeWhiteList = function(whiteList) {
 }
 
 KAFeedbackFramework .prototype  .initializeBlackList = function(blackList) {
-   this.blackList = blackList;
+    for (var element in blackList) {
+        this.blackList[blackList[element]] = 0;
+    }
 }
 
 KAFeedbackFramework .prototype  .initializeCodeStructure = function(codeStructure) {
@@ -130,7 +132,7 @@ KAFeedbackFramework .prototype  .extractASTFromString = function(textEditorStrin
     return acorn.parse(textEditorString, acorn.defaultOptions);
 }
 
-KAFeedbackFramework .prototype  .testCodeForWhiteListElements = function(textEditorString, extractedAST) {
+KAFeedbackFramework .prototype  .testCodeForWhiteListElements = function(extractedAST) {
     for(var element in this.whiteList) {
         var elementFound = acorn.walk.findNodeAt(extractedAST, null, null, element);
 
@@ -146,22 +148,49 @@ KAFeedbackFramework .prototype  .testCodeForWhiteListElements = function(textEdi
     return this.whiteList;
 }
 
-KAFeedbackFramework .prototype  .testCodeForBlackListElements = function(textEditorString, extractedAST) {
-    /*var elementFound;
+KAFeedbackFramework .prototype  .testCodeForBlackListElements = function(extractedAST) {
+    for(var element in this.blackList) {
+        var elementFound = acorn.walk.findNodeAt(extractedAST, null, null, element);
 
-    for(var element in this.whiteList) {
-        elementFound = acorn.walk.findNodeAt(extractedAST, null, null, this.whiteList[element]);
-
-        if(elementFound != undefined) {
-            alert("Found element!");
-            break;
+        if (elementFound != undefined) {
+            if (elementFound.node.type == element) {
+                this.blackList[element] = 1;
+            }
+        } else {
+            this.blackList[element] = 0;
         }
-    }*/
+    }
 
-    return 0;
+    return this.blackList;
 
 }
 
-KAFeedbackFramework .prototype  .testCodeForCorrectStructure = function(textEditorString, extractedAST) {
-    return this.codeStructure;
+KAFeedbackFramework .prototype .recursiveCheck = function(test, vector) {
+    if(typeof(test) === typeof('string')) {
+        return vector.push(key);
+    } else {
+        try {
+            var vector = [];
+            for (var element in test) {
+                // Checks to make sure keys are part of Parser API (i.e. IfStatement, WhileStatement)
+                var key = Object.keys(test[element]).toString();
+                var matches = key.match(/\d+/g);
+                if (matches == null) {
+                    vector.push(key);
+                }
+
+                this.recursiveCheck(test[element], vector);
+                return vector;
+            }
+        } catch(e) {
+
+        }
+    }
 }
+
+KAFeedbackFramework .prototype  .testCodeForCorrectStructure = function(extractedAST) {
+    //var array = [];
+    //alert('kk' + Object.keys(this.codeStructure[0]));
+    this.recursiveCheck(this.codeStructure);
+}
+

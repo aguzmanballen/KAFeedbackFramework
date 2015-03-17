@@ -18,36 +18,51 @@
     <div id="editor" style="float: left"></div>
 
     <h2>
-        For this exercise, you will be required to write code that contain the following:
+        For this exercise, you will be required to write code with specific functionality. When your code meets the
+        following criteria, the box will be checked off.
     </h2>
     <ul id="WhiteList">
     </ul>
     <h2>
-        When your code meets some of the criteria, a check will appear alongside it.
+        The exercise should not include any of the following functionalities:
     </h2>
+    <ul id="BlackList">
+    </ul>
 
     <!-  Khan Academy Code Structure Framework  -->
     <script src="scripts/KAFeedbackFramework.js" type="text/javascript" charset="utf-8"></script>
     <script>
         var KAFeedback = new KAFeedbackFramework();
 
-        var myWhiteList = ['WhileStatement', 'ForStatement', 'VariableDeclaration'];
-        var myBlackList = ["IfStatement"];//["for"];
-        var myCodeStructure = ["lol"];
+        // Parser API Objects can be found here:
+        // https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API#Builder_objects
+        var myWhiteList = ['WhileStatement', 'ForStatement'];
+        var myBlackList = ["IfStatement"];
+        var myCodeStructure = [{ForStatement:['IfStatement', 'BreakStatement']}, 'WhileStatement'];
 
         KAFeedback.initializeWhiteList(myWhiteList);
         KAFeedback.initializeBlackList(myBlackList);
         KAFeedback.initializeCodeStructure(myCodeStructure);
 
-        var listElement = document.getElementById("WhiteList");
+        var whiteListElement = document.getElementById("WhiteList");
 
-        for(var element in myWhiteList) {
+        for(var whiteElement in myWhiteList) {
             var listItem = document.createElement("li");
-            listItem.id = myWhiteList[element] + 'li';
-            listItem.innerHTML = myWhiteList[element];
+            listItem.id = myWhiteList[whiteElement] + 'li';
+            listItem.innerHTML = '☐ ' + myWhiteList[whiteElement];
 
             // add listItem to the listElement
-            listElement.appendChild(listItem);
+            whiteListElement.appendChild(listItem);
+        }
+
+        var blackListElement = document.getElementById("BlackList");
+        for(var blackElement in myBlackList) {
+            var listItem = document.createElement("li");
+            listItem.id = myBlackList[blackElement] + 'li';
+            listItem.innerHTML = '☒ ' + myBlackList[blackElement];
+
+            // add listItem to the listElement
+            blackListElement.appendChild(listItem);
         }
     </script>
 
@@ -60,8 +75,6 @@
         editor.setTheme("ace/theme/khan_academy");
         editor.getSession().setMode("ace/mode/javascript");
 
-        var whiteListFeedback = "";
-        var blackListFeedback = "";
         var codeStructureFeedback = "";
         var extractedAST;
 
@@ -69,19 +82,32 @@
             var textEditorString = editor.getValue();
             extractedAST = KAFeedback.extractASTFromString(textEditorString);
 
-            whiteListFeedback = KAFeedback.testCodeForWhiteListElements(textEditorString, extractedAST);
-            blackListFeedback = KAFeedback.testCodeForBlackListElements(textEditorString, extractedAST);
-            codeStructureFeedback = KAFeedback.testCodeForCorrectStructure(textEditorString, extractedAST);
+            KAFeedback.testCodeForWhiteListElements(extractedAST);
+            KAFeedback.testCodeForBlackListElements(extractedAST);
 
-            for(var element in myWhiteList) {
-                var listItem = document.getElementById(myWhiteList[element] + 'li');
+            codeStructureFeedback = KAFeedback.testCodeForCorrectStructure(extractedAST);
 
-                if(KAFeedback.whiteList[myWhiteList[element]] == 1) {
-                    listItem.innerHTML = '☑ ' + myWhiteList[element];// + myWhiteList[element];
+            for(var whiteElement in myWhiteList) {
+                var listItem = document.getElementById(myWhiteList[whiteElement] + 'li');
+
+                if(KAFeedback.whiteList[myWhiteList[whiteElement]] == 1) {
+                    listItem.innerHTML = '☑ ' + myWhiteList[whiteElement];// + myWhiteList[element];
                 } else {
-                    listItem.innerHTML = '☐ ' + myWhiteList[element];
+                    listItem.innerHTML = '☐ ' + myWhiteList[whiteElement];
                 }
             }
+
+            for(var blackElement in myBlackList) {
+                var listItem = document.getElementById(myBlackList[blackElement] + 'li');
+
+                if(KAFeedback.blackList[myBlackList[blackElement]] == 1) {
+                    listItem.style.color = 'red';
+                } else {
+                    listItem.style.color = 'black';
+                }
+            }
+
+
         });
 
         editor.commands.addCommand({
